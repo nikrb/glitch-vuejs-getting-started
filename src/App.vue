@@ -1,34 +1,36 @@
 <template>
   <div id="app">
-    <h1>Todo Component</h1><button @click="test()">
-    test
-  </button>
-    <todo :todolist="todolist"></todo>
+    <h1>Availability</h1>
+    <button @click="test()">Test</button>
+    <availability-table :cells="this.Cells"></availability-table>
   </div>
 </template>
 
 <script>
-  import Todo from './components/Todo.vue';
+  import AvailabilityTable from './components/AvailabilityTable.vue';
   import uniqueId from 'lodash.uniqueid';
 
 export default {
   name: 'app',
   components: {
-    Todo,
+    AvailabilityTable,
   },
   methods: {
     test() {
-      for( let item in this.todolist)
-        console.log( this.todolist[item].label);
+      console.log("test:", this.Cells);
     }
   },
   data() {
-    return {
-      todolist: [
-          { id: uniqueId('todo-'), label: "item 1", done: false},
-          { id: uniqueId('todo-'), label: "item 2", done: true},
-        ]
+    let newcells = new Array(24);
+    for( let i =0; i<24; i++) {
+      newcells[i] = new Array(7);
+      for( let j=0; j<7; j++) {
+        newcells[i][j] = {id: uniqueId("slot"), available:Math.random()>0.5?true:false};
+      }
     }
+    return {
+      Cells: newcells,
+    };
   }
 }
 </script>
