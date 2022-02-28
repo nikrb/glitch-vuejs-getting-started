@@ -1,7 +1,7 @@
 <template>
 <div>
   <button @click="clear()">clear</button>
-  <table @mouseleave="mouseLeave()">
+  <table @mouseleave="mouseOutOfBounds()">
     <tr @mouseenter="mouseOutOfBounds()">
       <th></th>
       <th v-for="day in dow" :key="day">{{day.charAt(0)}}</th>
@@ -38,9 +38,6 @@
         }
       },
       mouseUp() {
-        this.isMouseDown = false;
-      },
-      mouseLeave() {
         this.isMouseDown = false;
       },
       mouseOutOfBounds() {
