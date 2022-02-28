@@ -52,11 +52,16 @@
     border: 1px solid;
     border-collapse: collapse;
   }
-  td {
+  td:nth-child(1):hover {
+    border: 1px solid;
+    border-collapse: collapse;
+  }
+  td, th {
     width: 20px;
     height: 20px;
     border: 1px solid;
     border-collapse: collapse;
+    user-select: none;
   }
   td:hover {
     border-color: yellow;
