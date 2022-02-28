@@ -1,4 +1,4 @@
-continuing with todo getting started example.
+continuing with an availability table.
 
 
 Vuejs basic webpack simple starter template
