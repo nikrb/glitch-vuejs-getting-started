@@ -1,7 +1,6 @@
 <template>
 <div>
-  <p>14</p>
-  <button @click="test()">test</button>
+  <button @click="clear()">clear</button>
   <table>
     <tr>
       <th></th>
@@ -16,39 +15,33 @@
       </td>
     </tr>
   </table>
-
 </div>
 </template>
 
 <script>
+  import uniqueId from 'lodash.uniqueid';
   export default {
     name: "AvailabilityTable",
-    props: {
-      cells: {required: true, type:Array},
-    },
     methods: {
       cellClicked(cell) {
         cell.available = !cell.available;
-        console.log("cell clicked:", cell);
       },
-      test() {
-        /*
-        let newcells = new Array(24);
-        for( let i =0; i<24; i++) {
-          newcells[i] = new Array(7);
-          for( let j=0; j<7; j++) {
-            newcells[i][j] = {id: i*7+j, available:Math.random()>0.5?true:false};
-          }
-        }
-        console.log("cells:", newcells);
-        this.cells = newcells;
-        */
-        console.log(this.cells);
+      clear() {
+        this.cells = this.cells.map(i => i.map(j => { return { ...j, available : false};}));
       },
     },
     data() {
+      // generate some availability
+      let newcells = new Array(24);
+      for( let i =0; i<24; i++) {
+        newcells[i] = new Array(7);
+        for( let j=0; j<7; j++) {
+          newcells[i][j] = {id: uniqueId("slot"), available:Math.random()>0.5?true:false};
+        }
+      }
       return {
         dow: ["M","T","W","Th","F","Sa","Su"],
+        cells: newcells,
       };
     }
   };

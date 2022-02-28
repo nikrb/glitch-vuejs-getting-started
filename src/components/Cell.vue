@@ -1,6 +1,5 @@
 <template>
-  <td v-if="available" class="available"></td>
-  <td v-else ></td>
+  <td :class="{ 'available' : available }"></td>
 </template>
 
 <script>
