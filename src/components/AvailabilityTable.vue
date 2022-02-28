@@ -24,7 +24,6 @@
     name: "AvailabilityTable",
     methods: {
       cellClicked(cell) {
-        console.log(cell);
         cell.available = !cell.available;
       },
       clear() {
