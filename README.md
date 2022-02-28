@@ -1,5 +1,7 @@
 continuing with an availability table.
 
+TODO
+Admin: hovering over slot shows who is available
 
 Vuejs basic webpack simple starter template
 =================
