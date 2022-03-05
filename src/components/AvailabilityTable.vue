@@ -1,17 +1,19 @@
 <template>
 <div>
   <button @click="clear()">clear</button>
-  <table>
-    <tr>
+  <table @mouseleave="mouseOutOfBounds()">
+    <tr @mouseenter="mouseOutOfBounds()">
       <th></th>
       <th v-for="day in dow" :key="day">{{day.charAt(0)}}</th>
     </tr>
     <tr v-for="(row ,i) in cells" :key="i">
-      <td>{{i}}</td>
+      <td @mouseenter="mouseOutOfBounds()">{{i}}</td>
       <td v-for="cell in row" :key="cell.id"
           :id="cell.id"
           :class="{ 'available': cell.available}"
-          @click="cellClicked(cell)">
+          @mousedown="mouseDown(cell)"
+          @mouseover="mouseOver(cell)"
+          @mouseup="mouseUp()">
       </td>
     </tr>
   </table>
@@ -19,29 +21,37 @@
 </template>
 
 <script>
-  import uniqueId from 'lodash.uniqueid';
   export default {
     name: "AvailabilityTable",
+    props: {
+      userdata: Array,
+    },
     methods: {
-      cellClicked(cell) {
-        cell.available = !cell.available;
-      },
       clear() {
         this.cells = this.cells.map(i => i.map(j => { return { ...j, available : false};}));
       },
+      mouseDown(cell) {
+        this.isMouseDown = true;
+        cell.available = !cell.available;
+      },
+      mouseOver(cell) {
+        if( this.isMouseDown){
+          cell.available = !cell.available;
+        }
+      },
+      mouseUp() {
+        this.isMouseDown = false;
+      },
+      mouseOutOfBounds() {
+        this.isMouseDown = false;
+      },
     },
     data() {
-      // generate some availability
-      let newcells = new Array(24);
-      for( let i =0; i<24; i++) {
-        newcells[i] = new Array(7);
-        for( let j=0; j<7; j++) {
-          newcells[i][j] = {id: uniqueId("slot"), available:Math.random()>0.5?true:false};
-        }
-      }
+      console.log("running data function:", this.userdata);
       return {
+        isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
-        cells: newcells,
+        cells: this.userdata,
       };
     }
   };
@@ -52,11 +62,16 @@
     border: 1px solid;
     border-collapse: collapse;
   }
-  td {
+  td:nth-child(1):hover {
+    border: 1px solid;
+    border-collapse: collapse;
+  }
+  td, th {
     width: 20px;
     height: 20px;
     border: 1px solid;
     border-collapse: collapse;
+    user-select: none;
   }
   td:hover {
     border-color: yellow;

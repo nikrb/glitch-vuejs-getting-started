@@ -1,18 +1,35 @@
 <template>
   <div id="app">
-    <h1>Availability</h1>
-    <availability-table></availability-table>
+    <div v-if="isLoggedIn">
+      <h1>Availability</h1>
+      <availability :user="getLoggedInUser()"></availability>
+    </div>
+    <div v-else>
+      <login></login>
+    </div>
   </div>
 </template>
 
 <script>
-  import AvailabilityTable from './components/AvailabilityTable.vue';
+  import Login from './components/Login.vue';
+  import Availability from './components/Availability.vue';
 
 export default {
   name: 'app',
   components: {
-    AvailabilityTable,
+    Availability,
+    Login,
   },
+  methods: {
+    getLoggedInUser() {
+      return {name:"jon", isAdmin: true};
+    }
+  },
+  data() {
+    return {
+      isLoggedIn: true,
+    }
+  }
 }
 </script>
 
