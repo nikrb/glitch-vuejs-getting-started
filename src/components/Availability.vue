@@ -29,6 +29,7 @@
       getAllUserData() {
         let data = [{
           name: "Joe",
+          courses: ["web","scratch", ]
           slots: this.makeSlots(),
         },{
           name: "Jon",
@@ -54,6 +55,13 @@
     data() {
       return {
         isAdmin: this.user.isAdmin,
+        courseList: [{
+          {id: uniqueId('course'), level: 1, track: "gaming", name: "Scratch"},
+          {id: uniqueId('course'), level: 1, track: "art", name: "Digital Creativity"},
+          {id: uniqueId('course'), level: 1, track: "programming", name: "Python"},
+          {id: uniqueId('course'), level: 2, track: "programming", name: "Python"},
+          {id: uniqueId('course'), level: 2, track: "art", name: "3D Modelling"},
+        }],
       }
     },
   };
