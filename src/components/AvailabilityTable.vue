@@ -21,9 +21,11 @@
 </template>
 
 <script>
-  import uniqueId from 'lodash.uniqueid';
   export default {
     name: "AvailabilityTable",
+    props: {
+      userdata: Array,
+    },
     methods: {
       clear() {
         this.cells = this.cells.map(i => i.map(j => { return { ...j, available : false};}));
@@ -45,22 +47,11 @@
       },
     },
     data() {
-      console.log("running data function");
-      // generate some availability
-      let newcells = new Array(24);
-      for( let i =0; i<24; i++) {
-        newcells[i] = new Array(7);
-        for( let j=0; j<7; j++) {
-          newcells[i][j] = {
-            id: uniqueId("slot"),
-            available:Math.random()>0.5?true:false
-          };
-        }
-      }
+      console.log("running data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
-        cells: newcells,
+        cells: this.userdata,
       };
     }
   };
