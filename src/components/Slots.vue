@@ -9,7 +9,7 @@
       <th v-for="day in dow" :key="day">{{day.charAt(0)}}</th>
     </tr>
     <tr v-for="row in 24" :key="row">
-      <td>{{row}}</td>
+      <td>{{row-1}}</td>
       <td v-for="col in 7" :key="(row-1)*24+col-1"
           :class="{'available' : all_availability[row-1][col-1]}"
           @click="toggleHold"
