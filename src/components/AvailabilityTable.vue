@@ -57,11 +57,9 @@
       },
       courseViz() {
         this.coursesVisible = !this.coursesVisible;
-        console.log("courses visible:", this.coursesVisible);
       },
       hasCourse(course) {
         const has = this.userdata.courses.filter(c => c.name == course.name);
-        console.log("course,hascourse", course, has.length>0);
         return has.length > 0;
       }
     },

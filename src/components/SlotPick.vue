@@ -43,14 +43,11 @@
         const daykey = this.daykey;
         const hourkey = this.hourkey;
         this.userdata.forEach(function(e) {
-          console.log("user:", e);
-          console.log("day,hour:", daykey, hourkey);
           if(e.slots[hourkey][daykey].available){
             list.push(e.name);
           }
         });
         this.available = list;
-        console.log("new list:", list);
       },
     },
     data() {
