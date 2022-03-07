@@ -4,7 +4,9 @@
     <button @click="courseViz()">Courses</button>
     <div :class="{ 'courses-hidden': !coursesVisible}">
       <div v-for="c, i in userCourseMap" :key="c.id">
-        <input type="checkbox" v-model="userCourseMap[i].hasCourse" :value="c.hasCourse"/>
+        <input type="checkbox"
+              v-model="userCourseMap[i].hasCourse"
+              :value="c.hasCourse"/>
         <label>{{c.name}}</label>
       </div>
     </div>
