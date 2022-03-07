@@ -4,7 +4,9 @@
     <div v-else>
       <h1>{{user.name}}</h1>
       <availability-table :userdata="getLoggedInUserData()"
-                          :courseList="courseList"></availability-table>
+                          :courseList="courseList"
+                          @userCourseChanged="userCourseChanged">
+      </availability-table>
     </div>
   </div>
 </template>
@@ -42,6 +44,9 @@
           slots: this.makeSlots(),
         }];
         return data;
+      },
+      userCourseChanged(course) {
+        console.log( "course change:", course);
       },
       makeSlots() {
         // generate some availability

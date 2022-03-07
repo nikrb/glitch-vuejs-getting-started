@@ -6,7 +6,8 @@
       <div v-for="c, i in userCourseMap" :key="c.id">
         <input type="checkbox"
               v-model="userCourseMap[i].hasCourse"
-              :value="c.hasCourse"/>
+              :value="c.hasCourse"
+              @change="$emit('userCourseChanged', userCourseMap[i])"/>
         <label>{{c.name}}</label>
       </div>
     </div>
