@@ -63,8 +63,6 @@
         return has.length > 0;
       }
     },
-    computed: {
-    },
     data() {
       console.log("running data function:", this.userdata);
       return {
