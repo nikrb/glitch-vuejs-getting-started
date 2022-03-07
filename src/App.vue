@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getLoggedInUser() {
-      return {name:"jon", isAdmin: true};
+      return {name:"jon", isAdmin: false};
     }
   },
   data() {

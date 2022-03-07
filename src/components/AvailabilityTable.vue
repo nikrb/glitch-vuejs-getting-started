@@ -1,5 +1,16 @@
 <template>
 <div>
+  <div><p>
+    2
+    </p>
+    <button @click="courseViz()">Courses</button>
+    <div :class="{ 'courses-hidden': !coursesVisible}">
+      <div v-for="c, i in userCourseMap" :key="c.id">
+        <input type="checkbox" v-model="userCourseMap[i].hasCourse" :value="c.hasCourse"/>
+        <label>{{c.name}}</label>
+      </div>
+    </div>
+  </div>
   <button @click="clear()">clear</button>
   <table @mouseleave="mouseOutOfBounds()">
     <tr @mouseenter="mouseOutOfBounds()">
@@ -24,7 +35,8 @@
   export default {
     name: "AvailabilityTable",
     props: {
-      userdata: Array,
+      userdata: Object,
+      courseList: Array,
     },
     methods: {
       clear() {
@@ -45,13 +57,31 @@
       mouseOutOfBounds() {
         this.isMouseDown = false;
       },
+      courseViz() {
+        this.coursesVisible = !this.coursesVisible;
+        console.log("courses visible:", this.coursesVisible);
+      },
+      hasCourse(course) {
+        const has = this.userdata.courses.filter(c => c.name == course.name);
+        console.log("course,hascourse", course, has.length>0);
+        return has.length > 0;
+      }
+    },
+    computed: {
     },
     data() {
       console.log("running data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
-        cells: this.userdata,
+        cells: this.userdata.slots,
+        userCourseMap: this.courseList.map(c => {
+          return {
+            hasCourse: this.hasCourse(c),
+            ...c
+          };
+        }),
+        coursesVisible: true,
       };
     }
   };
@@ -78,5 +108,8 @@
   }
   .available {
     background-color: lightgreen;
+  }
+  .courses-hidden {
+    display: none;
   }
 </style>
