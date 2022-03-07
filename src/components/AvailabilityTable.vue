@@ -1,8 +1,6 @@
 <template>
 <div>
-  <div><p>
-    2
-    </p>
+  <div>
     <button @click="courseViz()">Courses</button>
     <div :class="{ 'courses-hidden': !coursesVisible}">
       <div v-for="c, i in userCourseMap" :key="c.id">
