@@ -5,7 +5,8 @@
       <h1>{{user.name}}</h1>
       <availability-table :userdata="getLoggedInUserData()"
                           :courseList="courseList"
-                          @userCourseChanged="userCourseChanged">
+                          @userCourseChanged="userCourseChanged"
+                          @availableChanged="userAvailableChanged">
       </availability-table>
     </div>
   </div>
@@ -27,11 +28,7 @@
     },
     methods: {
       getLoggedInUserData() {
-        return {
-          name: "Joe",
-          courses: [this.courseList[4], this.courseList[5]],
-          slots: this.makeSlots(),
-        };
+        return this.loggedInUserData;
       },
       getAllUserData() {
         let data = [{
@@ -46,7 +43,24 @@
         return data;
       },
       userCourseChanged(course) {
-        console.log( "course change:", course);
+        const found = this.loggedInUserData
+              .courses.filter(c => c.id != course.id);
+        if(found.length < this.loggedInUserData.courses.length) {
+          this.loggedInUserData.courses = found;
+        } else {
+          let {hasCourse, // eslint-disable-line no-unused-vars
+                ...rest} = course;
+          this.loggedInUserData.courses.push(rest);
+        }
+      },
+      userAvailableChanged(cell) {
+        for( let week in this.loggedInUserData.slots) {
+          for( let day in week) {
+            if(day.id == cell.id) {
+              day.available = cell.available;
+            }
+          }
+        }
       },
       makeSlots() {
         // generate some availability
@@ -64,9 +78,7 @@
       },
     },
     data() {
-      return {
-        isAdmin: this.user.isAdmin,
-        courseList: [
+      const course_list = [
           {id: uniqueId('course'), level: 1, track: "gaming", name: "Scratch"},
           {id: uniqueId('course'), level: 1, track: "art", name: "Digital Creativity"},
           {id: uniqueId('course'), level: 1, track: "programming", name: "Python"},
@@ -74,7 +86,15 @@
           {id: uniqueId('course'), level: 1, track: "programming", name: "web"},
           {id: uniqueId('course'), level: 2, track: "programming", name: "javascript"},
           {id: uniqueId('course'), level: 2, track: "art", name: "3D Modelling"},
-        ],
+        ];
+      return {
+        isAdmin: this.user.isAdmin,
+        courseList: course_list,
+        loggedInUserData: {
+          name: "Joe",
+          courses: [course_list[4], course_list[5]],
+          slots: this.makeSlots(),
+        },
       }
     },
   };

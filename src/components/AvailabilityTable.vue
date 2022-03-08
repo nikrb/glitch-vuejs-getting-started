@@ -8,7 +8,7 @@
               v-model="userCourseMap[i].hasCourse"
               :value="c.hasCourse"
               @change="$emit('userCourseChanged', userCourseMap[i])"/>
-        <label>{{c.name}}</label>
+        <label>{{c.name + "(level "+c.level+")"}}</label>
       </div>
     </div>
   </div>
@@ -46,10 +46,12 @@
       mouseDown(cell) {
         this.isMouseDown = true;
         cell.available = !cell.available;
+        this.$emit('availableChanged', cell);
       },
       mouseOver(cell) {
         if( this.isMouseDown){
           cell.available = !cell.available;
+          this.$emit('availableChanged', cell);
         }
       },
       mouseUp() {
