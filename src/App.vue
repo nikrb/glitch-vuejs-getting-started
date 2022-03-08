@@ -1,7 +1,7 @@
 <template>
   <div id="app">
+    <h1>Availability</h1>
     <div v-if="isLoggedIn">
-      <h1>Availability</h1>
       <availability :user="getLoggedInUser()"></availability>
     </div>
     <div v-else>
