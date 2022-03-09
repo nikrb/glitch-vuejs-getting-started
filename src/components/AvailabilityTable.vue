@@ -1,5 +1,17 @@
 <template>
 <div>
+  <div>
+    <button @click="courseViz()">Courses</button>
+    <div :class="{ 'courses-hidden': !coursesVisible}">
+      <div v-for="c, i in userCourseMap" :key="c.id">
+        <input type="checkbox"
+              v-model="userCourseMap[i].hasCourse"
+              :value="c.hasCourse"
+              @change="$emit('user-course-changed', userCourseMap[i])"/>
+        <label>{{c.name + "(level "+c.level+")"}}</label>
+      </div>
+    </div>
+  </div>
   <button @click="clear()">clear</button>
   <table @mouseleave="mouseOutOfBounds()">
     <tr @mouseenter="mouseOutOfBounds()">
@@ -24,7 +36,8 @@
   export default {
     name: "AvailabilityTable",
     props: {
-      userdata: Array,
+      userdata: Object,
+      courseList: Array,
     },
     methods: {
       clear() {
@@ -33,10 +46,12 @@
       mouseDown(cell) {
         this.isMouseDown = true;
         cell.available = !cell.available;
+        this.$emit('available-changed', cell);
       },
       mouseOver(cell) {
         if( this.isMouseDown){
           cell.available = !cell.available;
+          this.$emit('available-changed', cell);
         }
       },
       mouseUp() {
@@ -45,13 +60,27 @@
       mouseOutOfBounds() {
         this.isMouseDown = false;
       },
+      courseViz() {
+        this.coursesVisible = !this.coursesVisible;
+      },
+      hasCourse(course) {
+        const has = this.userdata.courses.filter(c => c.name == course.name);
+        return has.length > 0;
+      }
     },
     data() {
       console.log("running data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
-        cells: this.userdata,
+        cells: this.userdata.slots,
+        userCourseMap: this.courseList.map(c => {
+          return {
+            hasCourse: this.hasCourse(c),
+            ...c
+          };
+        }),
+        coursesVisible: true,
       };
     }
   };
@@ -78,5 +107,8 @@
   }
   .available {
     background-color: lightgreen;
+  }
+  .courses-hidden {
+    display: none;
   }
 </style>

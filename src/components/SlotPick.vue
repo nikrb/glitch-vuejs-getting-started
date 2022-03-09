@@ -2,7 +2,6 @@
   <div>
     <div>
       <label>day</label>
-
       <select @change="updateList()" v-model="daykey">
         <option value="0">Monday</option>
         <option value="1">Tuesday</option>
@@ -30,6 +29,8 @@
     name: "SlotPick",
     props: {
       userdata: { required: true, type: Array},
+      courseList: {required: true, type: Array},
+      coursekey: {required: true, type:String},
     },
     methods: {
       dayChange() {
@@ -40,18 +41,22 @@
       },
       updateList() {
         const list = [];
+        const coursekey = this.coursekey;
         const daykey = this.daykey;
         const hourkey = this.hourkey;
         this.userdata.forEach(function(e) {
-          console.log("user:", e);
-          console.log("day,hour:", daykey, hourkey);
-          if(e.slots[hourkey][daykey].available){
+          const found = e.courses.filter(c => c.id == coursekey);
+          if(e.slots[hourkey][daykey].available && found.length){
             list.push(e.name);
           }
         });
         this.available = list;
-        console.log("new list:", list);
       },
+    },
+    watch: {
+      coursekey: function() { // newval, oldval) {
+        this.updateList();
+      }
     },
     data() {
       return {

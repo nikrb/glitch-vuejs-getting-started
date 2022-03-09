@@ -1,8 +1,8 @@
 <template>
   <div id="app">
+    <h1>Availability</h1>
     <div v-if="isLoggedIn">
-      <h1>Availability</h1>
-      <availability :user="getLoggedInUser()"></availability>
+      <availability :user="user"></availability>
     </div>
     <div v-else>
       <login></login>
@@ -20,13 +20,10 @@ export default {
     Availability,
     Login,
   },
-  methods: {
-    getLoggedInUser() {
-      return {name:"jon", isAdmin: true};
-    }
-  },
   data() {
+    const isadmin = false;
     return {
+      user: {name:"jon", isAdmin: false},
       isLoggedIn: true,
     }
   }

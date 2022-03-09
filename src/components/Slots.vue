@@ -82,7 +82,6 @@
       },
     },
     data() {
-      console.log("running data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
