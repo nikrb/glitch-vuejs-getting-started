@@ -1,12 +1,13 @@
 <template>
   <div>
-    <admin-page v-if="isAdmin" :userdata="getAllUserData()"></admin-page>
+    <button @click="toggleAdmin">{{this.isAdmin?'admin':'user'}}</button>
+    <admin-page v-if="isAdmin" :userdata="getAllUserData()" :course-list="courseList"></admin-page>
     <div v-else>
       <h1>{{user.name}}</h1>
       <availability-table :userdata="getLoggedInUserData()"
-                          :courseList="courseList"
-                          @userCourseChanged="userCourseChanged"
-                          @availableChanged="userAvailableChanged">
+                          :course-list="courseList"
+                          @user-course-changed="userCourseChanged"
+                          @available-changed="userAvailableChanged">
       </availability-table>
     </div>
   </div>
@@ -61,6 +62,10 @@
             }
           }
         }
+      },
+      toggleAdmin() {
+        console.log("toggle admin");
+        this.isAdmin = !this.isAdmin;
       },
       makeSlots() {
         // generate some availability

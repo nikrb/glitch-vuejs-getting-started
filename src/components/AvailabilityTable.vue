@@ -7,7 +7,7 @@
         <input type="checkbox"
               v-model="userCourseMap[i].hasCourse"
               :value="c.hasCourse"
-              @change="$emit('userCourseChanged', userCourseMap[i])"/>
+              @change="$emit('user-course-changed', userCourseMap[i])"/>
         <label>{{c.name + "(level "+c.level+")"}}</label>
       </div>
     </div>
@@ -46,12 +46,12 @@
       mouseDown(cell) {
         this.isMouseDown = true;
         cell.available = !cell.available;
-        this.$emit('availableChanged', cell);
+        this.$emit('available-changed', cell);
       },
       mouseOver(cell) {
         if( this.isMouseDown){
           cell.available = !cell.available;
-          this.$emit('availableChanged', cell);
+          this.$emit('available-changed', cell);
         }
       },
       mouseUp() {
