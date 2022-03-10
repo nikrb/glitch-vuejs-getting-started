@@ -43,6 +43,11 @@
         this.available = list;
       },
     },
+    watch: {
+      userdata: function() {
+        this.updateList();
+      },
+    },
     data() {
       return {
         daykey: 0,

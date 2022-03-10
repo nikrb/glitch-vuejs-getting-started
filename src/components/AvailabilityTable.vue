@@ -21,7 +21,6 @@
     <tr v-for="(row ,i) in cells" :key="i">
       <td @mouseenter="mouseOutOfBounds()">{{i}}</td>
       <td v-for="cell in row" :key="cell.id"
-          :id="cell.id"
           :class="{ 'available': cell.available}"
           @mousedown="mouseDown(cell)"
           @mouseover="mouseOver(cell)"
@@ -41,7 +40,7 @@
     },
     methods: {
       clear() {
-        this.cells = this.cells.map(i => i.map(j => { return { ...j, available : false};}));
+        this.cells = this.cells.map(hour => hour.map(day => { return { ...day, available : false};}));
       },
       mouseDown(cell) {
         this.isMouseDown = true;
@@ -64,12 +63,12 @@
         this.coursesVisible = !this.coursesVisible;
       },
       hasCourse(course) {
-        const has = this.userdata.courses.filter(c => c.name == course.name);
+        const has = this.userdata.courses.filter(c => c.id == course.id);
         return has.length > 0;
       }
     },
     data() {
-      console.log("running data function:", this.userdata);
+      console.log("running AvailabilityTable data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],

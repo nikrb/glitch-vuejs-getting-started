@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      user: {name:"jon", isAdmin: false},
+      user: {name:"joe", isAdmin: false},
       isLoggedIn: true,
     }
   }
