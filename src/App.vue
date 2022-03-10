@@ -21,7 +21,6 @@ export default {
     Login,
   },
   data() {
-    const isadmin = false;
     return {
       user: {name:"jon", isAdmin: false},
       isLoggedIn: true,
