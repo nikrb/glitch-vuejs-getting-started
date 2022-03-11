@@ -3,12 +3,12 @@
   <div>
     <button @click="courseViz()">Courses</button>
     <div :class="{ 'courses-hidden': !coursesVisible}">
-      <div v-for="c, i in userCourseMap" :key="c.id">
+      <div v-for="c, i in userCourseMap" :key="c.id" class="course-item">
         <input type="checkbox"
               v-model="userCourseMap[i].hasCourse"
               :value="c.hasCourse"
               @change="$emit('user-course-changed', userCourseMap[i])"/>
-        <label>{{c.name + "(level "+c.level+")"}}</label>
+        <label @click="labelClick(userCourseMap[i])">{{c.name + "(level "+c.level+")"}}</label>
       </div>
     </div>
   </div>
@@ -64,7 +64,14 @@
       },
       hasCourse(course) {
         const has = this.userdata.courses.filter(c => c.id == course.id);
-        return has.length > 0;
+        return has.length;
+      },
+      labelClick(course) {
+        const found = this.userCourseMap.filter(c => c.id == course.id);
+        if(found.length) {
+          this.$emit('user-course-changed', course);
+          found[0].hasCourse = !found[0].hasCourse;
+        }
       }
     },
     data() {
@@ -104,10 +111,17 @@
   td:hover {
     border-color: yellow;
   }
+  label {
+    margin-left: 5px;
+  }
   .available {
     background-color: lightgreen;
   }
   .courses-hidden {
     display: none;
+  }
+  .course-item {
+    display: flex;
+    align-items: center;
   }
 </style>

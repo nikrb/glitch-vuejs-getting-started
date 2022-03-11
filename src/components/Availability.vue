@@ -1,7 +1,5 @@
 <template>
-  <div><p>
-    2
-  </p>
+  <div>
     <button @click="toggleAdmin">{{this.isAdmin?'admin':'user'}}</button>
     <admin-page v-if="isAdmin" :userdata="allUserData" :course-list="courseList"></admin-page>
     <div v-else>
