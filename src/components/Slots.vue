@@ -1,7 +1,12 @@
 <template>
 <div>
   <div :style="{left: 'calc(50vw - 90px)', top: this.top, position: 'fixed'}">
-    <textarea rows="4" cols="20" v-model="availability" placeholder="Availability" readonly></textarea>
+    <textarea rows="4" cols="20"
+              :class="{'hide-textarea' : hidetextarea}"
+              v-model="availability"
+              placeholder="Availability"
+              readonly>
+    </textarea>
   </div>
   <table @mouseleave="mouseLeave()">
     <tr>
@@ -28,6 +33,7 @@
     },
     methods: {
       mouseOver(cell, event) {
+        this.hidetextarea = false;
         const row = cell.row-1;
         const col = cell.col-1;
         if(row != this.last_row && !this.hold) {
@@ -50,6 +56,7 @@
         }
       },
       mouseLeave() {
+        this.hidetextarea = true;
         this.top = "0px";
         this.last_row = -1;
       },
@@ -96,6 +103,7 @@
         last_row: -1,
         hold: false,
         all_availability: this.reduceAvailability(this.userdata),
+        hidetextarea: true,
       };
     }
   };
@@ -103,8 +111,12 @@
 
 <style>
   textarea {
+    display: block;
     border: 1 solid blue;
     resize: none;
+  }
+  .hide-textarea {
+    display: none;
   }
   table {
     border: 1px solid;

@@ -76,15 +76,16 @@
           {id: uniqueId('course'), level: 2, track: "programming", name: "javascript"},
           {id: uniqueId('course'), level: 2, track: "art", name: "3D Modelling"},
         ];
-        const usersdata = [{
-            name: "Joe",
-            courses: [course_list[4], course_list[5]],
-            slots: this.makeSlots(),
-          },{
-            name: "Jon",
-            courses: [course_list[0], course_list[6]],
-            slots: this.makeSlots(),
-        }];
+      // note: the plural
+      const usersdata = [{
+          name: "Joe",
+          courses: [course_list[4], course_list[5]],
+          slots: this.makeSlots(),
+        },{
+          name: "Jon",
+          courses: [course_list[0], course_list[6]],
+          slots: this.makeSlots(),
+      }];
       return {
         isAdmin: this.user.isAdmin,
         courseList: course_list,
