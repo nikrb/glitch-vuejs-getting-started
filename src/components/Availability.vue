@@ -1,10 +1,10 @@
 <template>
   <div>
     <button @click="toggleAdmin">{{this.isAdmin?'admin':'user'}}</button>
-    <admin-page v-if="isAdmin" :userdata="getAllUserData()" :course-list="courseList"></admin-page>
+    <admin-page v-if="isAdmin" :userdata="allUserData" :course-list="courseList"></admin-page>
     <div v-else>
       <h1>{{user.name}}</h1>
-      <availability-table :userdata="getLoggedInUserData()"
+      <availability-table :userdata="loggedInUserData"
                           :course-list="courseList"
                           @user-course-changed="userCourseChanged"
                           @available-changed="userAvailableChanged">
@@ -28,21 +28,6 @@
       AvailabilityTable,
     },
     methods: {
-      getLoggedInUserData() {
-        return this.loggedInUserData;
-      },
-      getAllUserData() {
-        let data = [{
-          name: "Joe",
-          courses: [this.courseList[4], this.courseList[5]],
-          slots: this.makeSlots(),
-        },{
-          name: "Jon",
-          courses: [this.courseList[0], this.courseList[6]],
-          slots: this.makeSlots(),
-        }];
-        return data;
-      },
       userCourseChanged(course) {
         const found = this.loggedInUserData
               .courses.filter(c => c.id != course.id);
@@ -55,8 +40,8 @@
         }
       },
       userAvailableChanged(cell) {
-        for( let week in this.loggedInUserData.slots) {
-          for( let day in week) {
+        for( let hour in this.loggedInUserData.slots) {
+          for( let day in hour) {
             if(day.id == cell.id) {
               day.available = cell.available;
             }
@@ -64,7 +49,6 @@
         }
       },
       toggleAdmin() {
-        console.log("toggle admin");
         this.isAdmin = !this.isAdmin;
       },
       makeSlots() {
@@ -92,14 +76,20 @@
           {id: uniqueId('course'), level: 2, track: "programming", name: "javascript"},
           {id: uniqueId('course'), level: 2, track: "art", name: "3D Modelling"},
         ];
+        const usersdata = [{
+            name: "Joe",
+            courses: [course_list[4], course_list[5]],
+            slots: this.makeSlots(),
+          },{
+            name: "Jon",
+            courses: [course_list[0], course_list[6]],
+            slots: this.makeSlots(),
+        }];
       return {
         isAdmin: this.user.isAdmin,
         courseList: course_list,
-        loggedInUserData: {
-          name: "Joe",
-          courses: [course_list[4], course_list[5]],
-          slots: this.makeSlots(),
-        },
+        loggedInUserData: usersdata[0],
+        allUserData: usersdata,
       }
     },
   };

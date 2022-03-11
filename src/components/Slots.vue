@@ -81,6 +81,11 @@
         return ret;
       },
     },
+    watch: {
+      userdata: function() {
+        this.all_availability = this.reduceAvailability(this.userdata);
+      },
+    },
     data() {
       return {
         isMouseDown: false,

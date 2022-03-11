@@ -3,12 +3,12 @@
   <div>
     <button @click="courseViz()">Courses</button>
     <div :class="{ 'courses-hidden': !coursesVisible}">
-      <div v-for="c, i in userCourseMap" :key="c.id">
+      <div v-for="c, i in userCourseMap" :key="c.id" class="course-item">
         <input type="checkbox"
               v-model="userCourseMap[i].hasCourse"
               :value="c.hasCourse"
               @change="$emit('user-course-changed', userCourseMap[i])"/>
-        <label>{{c.name + "(level "+c.level+")"}}</label>
+        <label @click="labelClick(userCourseMap[i])">{{c.name + "(level "+c.level+")"}}</label>
       </div>
     </div>
   </div>
@@ -21,7 +21,6 @@
     <tr v-for="(row ,i) in cells" :key="i">
       <td @mouseenter="mouseOutOfBounds()">{{i}}</td>
       <td v-for="cell in row" :key="cell.id"
-          :id="cell.id"
           :class="{ 'available': cell.available}"
           @mousedown="mouseDown(cell)"
           @mouseover="mouseOver(cell)"
@@ -41,7 +40,7 @@
     },
     methods: {
       clear() {
-        this.cells = this.cells.map(i => i.map(j => { return { ...j, available : false};}));
+        this.cells = this.cells.map(hour => hour.map(day => { return { ...day, available : false};}));
       },
       mouseDown(cell) {
         this.isMouseDown = true;
@@ -64,12 +63,19 @@
         this.coursesVisible = !this.coursesVisible;
       },
       hasCourse(course) {
-        const has = this.userdata.courses.filter(c => c.name == course.name);
-        return has.length > 0;
+        const has = this.userdata.courses.filter(c => c.id == course.id);
+        return has.length;
+      },
+      labelClick(course) {
+        const found = this.userCourseMap.filter(c => c.id == course.id);
+        if(found.length) {
+          this.$emit('user-course-changed', course);
+          found[0].hasCourse = !found[0].hasCourse;
+        }
       }
     },
     data() {
-      console.log("running data function:", this.userdata);
+      console.log("running AvailabilityTable data function:", this.userdata);
       return {
         isMouseDown: false,
         dow: ["M","T","W","Th","F","Sa","Su"],
@@ -105,10 +111,17 @@
   td:hover {
     border-color: yellow;
   }
+  label {
+    margin-left: 5px;
+  }
   .available {
     background-color: lightgreen;
   }
   .courses-hidden {
     display: none;
+  }
+  .course-item {
+    display: flex;
+    align-items: center;
   }
 </style>

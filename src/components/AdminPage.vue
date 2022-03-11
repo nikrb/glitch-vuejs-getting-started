@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p>
-      2
-    </p>
     <div>
       <label>course</label>
       <select v-model="coursekey">
@@ -11,10 +8,10 @@
     </div>
     <button @click="toggleView()">toggle</button>
     <div v-if="this.slotView">
-      <slot-pick :userdata="userdata" :course-list="courseList" :coursekey="coursekey"></slot-pick>
+      <slot-pick :userdata="availableuserdata"></slot-pick>
     </div>
     <div v-else>
-      <slots :userdata="userdata"></slots>
+      <slots :userdata="availableuserdata"></slots>
     </div>
   </div>
 </template>
@@ -36,11 +33,22 @@
       toggleView(){
         this.slotView = !this.slotView;
       },
+      availableForCourse(alldata){
+        const coursekey = this.coursekey;
+        const ret = alldata.filter(u => u.courses.filter(c => c.id == coursekey).length);
+        return ret;
+      },
+    },
+    watch: {
+      coursekey: function() {
+        this.availableuserdata = this.availableForCourse(this.userdata);
+      },
     },
     data() {
       return {
         slotView: true,
         coursekey: '',
+        availableuserdata: this.availableForCourse(this.userdata),
       };
     },
   };
